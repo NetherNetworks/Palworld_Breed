@@ -13,7 +13,8 @@ namespace Palworld_Breed.classes
     {
         private static void TestAlex()
         {
-            MessageBox.Show("Alex");
+            MessageBox.Show("Alex2203");
+            MessageBox.Show("Yuhu");
         }
             
         public static byte[] ImageToByteArray(Image image)
