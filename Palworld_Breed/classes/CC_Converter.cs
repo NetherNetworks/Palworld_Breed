@@ -18,6 +18,11 @@ namespace Palworld_Breed.classes
                 MessageBox.Show($"This is the {i+1}. message.");           
             }
         }
+
+        private static void TestBlex()
+        {
+            MessageBox.Show("This is the Blex Test.");
+        }
             
         public static byte[] ImageToByteArray(Image image)
         {
