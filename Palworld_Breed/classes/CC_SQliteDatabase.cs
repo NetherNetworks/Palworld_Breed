@@ -38,16 +38,20 @@ namespace Palworld_Breed.classes
             }
         }
 
+
+
         public static void LoadCB<T>(ComboBox cb)
         {
             string sql_query = "Select * from pals order by Combi_Rank";
 
             using (IDbConnection connection = new SQLiteConnection(_connectionString))
             {
-                var output = connection.Query<T>(sql_query, new DynamicParameters()).ToList();
+                var output = connection.Query<T>(sql_query).ToList();
                 cb.DataSource = output;
             }
         }
+
+
 
         public static Pal[] PalArray()
         {
@@ -57,17 +61,12 @@ namespace Palworld_Breed.classes
 
             using (IDbConnection connection = new SQLiteConnection(_connectionString))
             {
-                arrayNumber = connection.ExecuteScalar<int>(sql_query1);             
-            }
-
-            Pal[] pals = new Pal[arrayNumber];
-
-            using (IDbConnection connection = new SQLiteConnection(_connectionString))
-            {
+                arrayNumber = connection.ExecuteScalar<int>(sql_query1);
+                Pal[] pals = new Pal[arrayNumber];
                 var output = connection.Query<Pal>(sql_query2).ToArray();
                 pals = output;
-            }
-            return pals;
+                return pals;
+            }            
         }
 
 
