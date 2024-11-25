@@ -8,9 +8,8 @@ namespace Palworld_Breed.classes
 {
     public class ParentChild
     {
-        string Name {  get; set; }
-        int TB_Nr {  get; set; }
-        int Combi_Rank { get; set; }
-
+        public string Name {  get; set; }
+        public int TB_Nr {  get; set; }
+        public int Combi_Rank { get; set; }
     }
 }

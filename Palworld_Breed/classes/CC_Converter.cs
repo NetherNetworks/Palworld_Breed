@@ -11,11 +11,6 @@ namespace Palworld_Breed.classes
 {
     public static class CC_Converter
     {
-        private static void TestAlex()
-        {
-            MessageBox.Show("Test");
-        }
-            
         public static byte[] ImageToByteArray(Image image)
         {
             using (MemoryStream ms = new MemoryStream())

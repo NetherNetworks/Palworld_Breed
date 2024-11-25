@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -44,9 +45,29 @@ namespace Palworld_Breed.classes
 
             using (IDbConnection connection = new SQLiteConnection(_connectionString))
             {
-                var output = connection.Query<T>(sql_query, new DynamicParameters()).ToList();
+                var output = connection.Query<T>(sql_query).ToList();
                 cb.DataSource = output;
             }
+        }
+
+        public static List<ParentChild> listOfPals()
+        {
+            string sql_query = "Select * from pals";
+
+            using (IDbConnection connection = new SQLiteConnection(_connectionString))
+            {
+                List<ParentChild> allPals = connection.Query<ParentChild>(sql_query).ToList();
+
+                //allPals.Sort((m1, m2) => -string.Compare(m1.Name, m2.Name));
+
+                allPals = allPals.OrderBy(item => item.Name).ToList();
+
+                allPals = allPals.OrderByDescending(A => A.Combi_Rank).ToList();
+
+                //allPals.
+
+                return allPals;
+            }                
         }
 
         public static Pal[] PalArray()
@@ -57,20 +78,17 @@ namespace Palworld_Breed.classes
 
             using (IDbConnection connection = new SQLiteConnection(_connectionString))
             {
-                arrayNumber = connection.ExecuteScalar<int>(sql_query1);             
-            }
+                arrayNumber = connection.ExecuteScalar<int>(sql_query1);
+                Pal[] pals = new Pal[arrayNumber];
+                pals = connection.Query<Pal>(sql_query2).ToArray();
 
-            Pal[] pals = new Pal[arrayNumber];
-
-            using (IDbConnection connection = new SQLiteConnection(_connectionString))
-            {
-                var output = connection.Query<Pal>(sql_query2).ToArray();
-                pals = output;
-            }
-            return pals;
+                pals = pals.OrderBy(item => item.Combi_Rank).ToArray();
+                
+                return pals;
+            }            
         }
 
-
+     
 
 
     }
