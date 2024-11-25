@@ -26,6 +26,14 @@ namespace Palworld_Breed.pages
             CC_SQliteDatabase.LoadCB<Pal>(cb_parent1);
             CC_SQliteDatabase.LoadCB<Pal>(cb_parent2);
             ChildCalculation(pals);
+
+            List<ParentChild> allPals = CC_SQliteDatabase.listOfPals();
+            Pal[] allPalsArray = CC_SQliteDatabase.PalArray();
+            /*
+            for (int i = 0; i < 3; i++)
+            {
+                MessageBox.Show(allPals[i].Name);
+            }*/
             
         }        
 
