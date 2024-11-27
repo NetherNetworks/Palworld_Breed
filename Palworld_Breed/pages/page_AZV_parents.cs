@@ -12,9 +12,7 @@ using System.Windows.Forms;
 namespace Palworld_Breed.pages
 {
     public partial class page_AZV_parents : UserControl
-    {
-       
-        Pal[] pals = CC_SQliteDatabase.PalArray();
+    {      
         
         Pal selectedPal1 = new Pal();
         Pal selectedPal2 = new Pal();
@@ -23,17 +21,9 @@ namespace Palworld_Breed.pages
         public page_AZV_parents()
         {
             InitializeComponent();
-            CC_SQliteDatabase.LoadCB<Pal>(cb_parent1);
-            CC_SQliteDatabase.LoadCB<Pal>(cb_parent2);
-            ChildCalculation(pals);
-
-            List<ParentChild> allPals = CC_SQliteDatabase.listOfPals();
-            Pal[] allPalsArray = CC_SQliteDatabase.PalArray();
-            /*
-            for (int i = 0; i < 3; i++)
-            {
-                MessageBox.Show(allPals[i].Name);
-            }*/
+            
+            cb_parent1.DataSource = CC_SQliteDatabase.listOfPals();
+            cb_parent2.DataSource = CC_SQliteDatabase.listOfPals();
             
         }        
 
@@ -47,7 +37,7 @@ namespace Palworld_Breed.pages
 
             lbl_crvalue1.Text = selectedPal1.Combi_Rank.ToString();
 
-            ChildCalculation(pals);
+            //ChildCalculation(allPals);
         }
         private void Cb_Parent2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -58,12 +48,12 @@ namespace Palworld_Breed.pages
 
             lbl_crvalue2.Text = selectedPal2.Combi_Rank.ToString();
 
-            ChildCalculation(pals);
+            //ChildCalculation(allPals);
         }
 
 
 
-        private void ChildCalculation(Pal[] pals)
+        /*private void ChildCalculation(List<>)
         {
             int childCR = (selectedPal1.Combi_Rank+selectedPal2.Combi_Rank)/2;
 
@@ -78,6 +68,6 @@ namespace Palworld_Breed.pages
                 }
             }
 
-        }
+        }*/
     }
 }

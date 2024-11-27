@@ -39,57 +39,19 @@ namespace Palworld_Breed.classes
             }
         }
 
-        public static void LoadCB<T>(ComboBox cb)
-        {
-            string sql_query = "Select * from pals order by Combi_Rank";
-
-            using (IDbConnection connection = new SQLiteConnection(_connectionString))
-            {
-                var output = connection.Query<T>(sql_query).ToList();
-                cb.DataSource = output;
-            }
-        }
-
-        public static List<ParentChild> listOfPals()
+        public static List<Pal> listOfPals()
         {
             string sql_query = "Select * from pals";
 
             using (IDbConnection connection = new SQLiteConnection(_connectionString))
             {
-                List<ParentChild> allPals = connection.Query<ParentChild>(sql_query).ToList();
+                List<Pal> allPals = connection.Query<Pal>(sql_query).ToList().OrderBy(item => item.Combi_Rank).ToList();
 
                 //allPals.Sort((m1, m2) => -string.Compare(m1.Name, m2.Name));
-
-                allPals = allPals.OrderBy(item => item.Name).ToList();
-
-                allPals = allPals.OrderByDescending(A => A.Combi_Rank).ToList();
-
-                //allPals.
+                //allPals = allPals.OrderBy(item => item.Combi_Rank).ToList();
 
                 return allPals;
             }                
-        }
-
-        public static Pal[] PalArray()
-        {
-            string sql_query1 = "Select count(*) from pals";
-            string sql_query2 = "Select * from pals";
-            int arrayNumber;            
-
-            using (IDbConnection connection = new SQLiteConnection(_connectionString))
-            {
-                arrayNumber = connection.ExecuteScalar<int>(sql_query1);
-                Pal[] pals = new Pal[arrayNumber];
-                pals = connection.Query<Pal>(sql_query2).ToArray();
-
-                pals = pals.OrderBy(item => item.Combi_Rank).ToArray();
-                
-                return pals;
-            }            
-        }
-
-     
-
-
+        } 
     }
 }

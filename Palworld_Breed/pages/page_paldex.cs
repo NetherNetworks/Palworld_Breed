@@ -25,9 +25,8 @@ namespace Palworld_Breed.pages
         }
 
         private void page_paldex_Load(object sender, EventArgs e)
-        {
-            CC_SQliteDatabase.LoadCB<Pal>(cb_paldex);
-
+        {           
+            cb_paldex.DataSource = CC_SQliteDatabase.listOfPals();
         }
         #endregion
 
@@ -104,7 +103,7 @@ namespace Palworld_Breed.pages
 
                     // Optionally, you can provide feedback to the user (e.g., message box)
                     //MessageBox.Show("Image successfully saved to the database.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    CC_SQliteDatabase.LoadCB<Pal>(cb_paldex);
+                    cb_paldex.DataSource = CC_SQliteDatabase.listOfPals();
                 }
             }
         }
