@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -49,48 +50,68 @@ namespace Palworld_Breed.pages
         
         private void ChildCalculation()
         {
-            /*if (((Pal)cb_parent1.SelectedItem).Combi_Rank == 50 && ((Pal)cb_parent2.SelectedItem).Combi_Rank == 150)
-            {*/
+            int index;
+            double differenceLow, differenceHigh;
+
+            if (cb_parent1.SelectedItem != null && cb_parent2.SelectedItem != null)
+            {
                 double childCombiRank = (((Pal)cb_parent1.SelectedItem).Combi_Rank + ((Pal)cb_parent2.SelectedItem).Combi_Rank) / 2;
 
                 List<Pal> palList = CC_SQliteDatabase.listOfPals();
 
-                bool exists = palList.Any(pal => (double)pal.Combi_Rank == childCombiRank);
+                //bool matchFound = palList.Any(pal => pal.Combi_Rank == childCombiRank);
 
-                if (exists)
+                index = palList.FindIndex(pal => (double)pal.Combi_Rank == childCombiRank);
+
+                if (index != -1)
                 {
-                    for (int i = 0; i < palList.Count; i++)
+                    pb_child.Image = CC_Converter.ByteArrayToImage(palList[index].Picture);
+                    lbl_cr_child.Text = palList[index].Combi_Rank.ToString();
+                    lbl_child_name.Text = palList[index].Name;
+                    return;
+                }
+
+                for (int i = 0; i < palList.Count; i++)
+                {
+                    if ((double)palList[i].Combi_Rank > childCombiRank)
                     {
-                        if ((double)palList[i].Combi_Rank == childCombiRank)
+                        differenceLow = childCombiRank - (double)palList[i-1].Combi_Rank;
+                        differenceHigh = (double)palList[i].Combi_Rank - childCombiRank;
+
+                        if (differenceHigh == differenceLow)
+                        {
+                            if (palList[i].TB_Nr < palList[i-1].TB_Nr)
+                            {
+                                pb_child.Image = CC_Converter.ByteArrayToImage(palList[i].Picture);
+                                lbl_cr_child.Text = palList[i].Combi_Rank.ToString();
+                                lbl_child_name.Text = palList[i].Name;
+                                return;
+                            }
+                            else
+                            {
+                                pb_child.Image = CC_Converter.ByteArrayToImage(palList[i-1].Picture);
+                                lbl_cr_child.Text = palList[i-1].Combi_Rank.ToString();
+                                lbl_child_name.Text = palList[i-1].Name;
+                                return;
+                            }
+                        }
+                        else if (differenceHigh < differenceLow)
                         {
                             pb_child.Image = CC_Converter.ByteArrayToImage(palList[i].Picture);
+                            lbl_cr_child.Text = palList[i].Combi_Rank.ToString();
+                            lbl_child_name.Text = palList[i].Name;
+                            return;
+                        }
+                        else
+                        {
+                            pb_child.Image = CC_Converter.ByteArrayToImage(palList[i-1].Picture);
+                            lbl_cr_child.Text = palList[i - 1].Combi_Rank.ToString();
+                            lbl_child_name.Text = palList[i - 1].Name;
                             return;
                         }
                     }
                 }
-            
-                
-                
-                //}
-
-            //TODO need to get the index of that pal, which matched the palList.Any result
-
-            /*
-            // 1.       Add combi ranks of both parents together, then divide by two
-
-            // 2.       Check, if any pal exists with the result of step 1. If so, the logic is done.
-
-            // 3        If there is no match, we need to find the position within the entire pal list,
-                        where one pal's combi rank is lower than the result and the next pal's combi rank within
-                        the list is higher than the result. - Create a loop from smallest to largest combi rank,
-                        as soon as the current combi rank is bigger than the result from step 1, we have found the position.
-
-            // 3.1.1    We now need to find the difference between the smaller combi rank to the result + the difference
-                        from the bigger combi rank to the result. The smaller difference wins. In this case the logic is done.
-
-
-            // 3.1.2    If there is a tie, then the pal with the lower tie breaker value wins. At this point the logic is done.
-            */
+            }
         }
     }
 }
