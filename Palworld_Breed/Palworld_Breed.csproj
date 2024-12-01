@@ -58,7 +58,6 @@
     <Compile Include="classes\CC_Converter.cs" />
     <Compile Include="classes\CC_SQliteDatabase.cs" />
     <Compile Include="classes\Pal.cs" />
-    <Compile Include="classes\ParentChild.cs" />
     <Compile Include="enums\enums.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
